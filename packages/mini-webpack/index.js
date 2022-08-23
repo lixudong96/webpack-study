@@ -2,7 +2,7 @@ const swc = require("@swc/core")
 const path = require('path')
 const fs = require('fs')
 const Visitor = require('@swc/core/Visitor').default;
-
+const ExcludeConsole = require('./plugins/exclude-console')
 let moduleId = 0
 const deps = []
 
@@ -36,13 +36,7 @@ class MockWebpackPlugin extends Visitor {
 
 function collectRelyOn(entry) {
 
-  entry = path.resolve(__dirname, entry)
-
-  const currentModuleId = moduleId
-  // read file content
-  const sourceCode = fs.readFileSync(entry, 'utf-8')
-
-  const ast = swc.parseSync(sourceCode, {
+  const parseOption = {
     syntax: 'ecmascript',
     comments: false,
     script: true,
@@ -50,12 +44,29 @@ function collectRelyOn(entry) {
     target: 'es5',
 
     isModule: true
-  })
+  }
+  entry = path.resolve(__dirname, entry)
+
+  const currentModuleId = moduleId
+  // read file content
+  const sourceCode = fs.readFileSync(entry, 'utf-8')
+
+  const ast = swc.parseSync(sourceCode, parseOption)
+  /* 
+    const excludeConsoleData = swc.transformSync(ast, {
+      plugin: m => new ExcludeConsole().visitProgram(m)
+    })
+  
+    const beforeAst = swc.parseSync(excludeConsoleData.code, parseOption)
+  
+    const data = swc.transformSync(beforeAst, {
+      plugin: program => new MockWebpackPlugin(entry).visitProgram(program)
+    }) */
+
 
   const data = swc.transformSync(ast, {
     plugin: program => new MockWebpackPlugin(entry).visitProgram(program)
   })
-
   return {
     entry,
     code: data.code,
@@ -63,7 +74,7 @@ function collectRelyOn(entry) {
   }
 }
 
-function createModuleWrapper (code) {
+function createModuleWrapper(code) {
   return `
   (function(exports, require, module) {
     ${code}

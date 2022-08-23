@@ -7,8 +7,8 @@
     var inc = require("1").increment;
 var hello = require("3");
 var a = 1;
-console.log(inc(a));
-console.log(hello);
+void 0;
+void 0;
 
   }),
   (function(exports, require, module) {
