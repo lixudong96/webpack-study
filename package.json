@@ -13,6 +13,7 @@
   "devDependencies": {
     "@swc/cli": "^0.1.57",
     "@swc/core": "^1.2.241",
+    "nodemon": "^2.0.19",
     "tsx": "^3.8.2",
     "webpack": "^5.74.0"
   }
