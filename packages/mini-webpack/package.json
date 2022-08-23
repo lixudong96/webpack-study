@@ -1,0 +1,14 @@
+{
+  "name": "mini-webpack",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./index.js",
+    "start:watch": "nodemon ./index.js",
+    "test": "node ./output.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
