@@ -70,7 +70,7 @@ function createModuleWrapper (code) {
   })`
 }
 
-function createBunleTemplate(entry) {
+function createBundleTemplate(entry) {
   // 执行这步 为了收集依赖
   const module0 = collectRelyOn(entry)
   const modules = deps.sort((a, b) => a.id - b.id)
@@ -105,7 +105,7 @@ function createBunleTemplate(entry) {
 
 function build(entry) {
 
-  const code = createBunleTemplate(entry)
+  const code = createBundleTemplate(entry)
   fs.writeFileSync('./output.js', code)
 }
 
